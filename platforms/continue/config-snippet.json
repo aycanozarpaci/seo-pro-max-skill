@@ -1,0 +1,16 @@
+{
+  "customCommands": [
+    {
+      "name": "seo-pro-max",
+      "description": "Production-grade SEO setup (executor, not decision-maker)",
+      "prompt": "Read the file ./SKILL.md (or paste its body here) and follow its Phase 0 → Phase 5 protocol strictly. Do not silently choose frameworks, file paths, database schemas, or admin placement. Ask the user before every write."
+    }
+  ],
+  "rules": [
+    {
+      "name": "seo-pro-max",
+      "path": "./.continue/rules/seo-pro-max.md",
+      "when": "manual"
+    }
+  ]
+}

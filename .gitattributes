@@ -1,0 +1,14 @@
+# Keep CLI scripts LF on all platforms so the Node shebang stays valid.
+*.mjs text eol=lf
+*.js  text eol=lf
+*.sh  text eol=lf
+
+# Markdown / JSON / YAML — normalize to LF too.
+*.md   text eol=lf
+*.mdc  text eol=lf
+*.json text eol=lf
+*.yml  text eol=lf
+*.yaml text eol=lf
+
+# Make the bin entry exportable as executable.
+bin/seo-pro-max.mjs eol=lf

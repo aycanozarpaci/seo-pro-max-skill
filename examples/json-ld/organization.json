@@ -1,0 +1,26 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://example.com/#organization",
+  "name": "Example Corp",
+  "url": "https://example.com",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "https://example.com/logo.png",
+    "width": 512,
+    "height": 512
+  },
+  "sameAs": [
+    "https://x.com/example",
+    "https://www.linkedin.com/company/example",
+    "https://github.com/example"
+  ],
+  "contactPoint": [
+    {
+      "@type": "ContactPoint",
+      "contactType": "customer support",
+      "email": "support@example.com",
+      "availableLanguage": ["tr", "en"]
+    }
+  ]
+}

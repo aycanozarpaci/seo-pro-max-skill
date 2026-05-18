@@ -1,0 +1,38 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "@id": "https://example.com/branches/kadikoy#location",
+  "name": "Example Kebap — Kadıköy",
+  "image": "https://example.com/branches/kadikoy/hero.jpg",
+  "url": "https://example.com/branches/kadikoy",
+  "telephone": "+90-216-000-0000",
+  "priceRange": "₺₺",
+  "servesCuisine": ["Turkish", "Mediterranean"],
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Caferağa Mah. Moda Cad. No:1",
+    "addressLocality": "Kadıköy",
+    "addressRegion": "İstanbul",
+    "postalCode": "34710",
+    "addressCountry": "TR"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 40.987,
+    "longitude": 29.027
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Sunday"],
+      "opens": "11:00",
+      "closes": "23:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Friday", "Saturday"],
+      "opens": "11:00",
+      "closes": "01:00"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Acme Cordless Drill 18V",
+  "description": "Brushless 18V cordless drill with two batteries.",
+  "image": [
+    "https://example.com/products/drill/main.jpg",
+    "https://example.com/products/drill/side.jpg"
+  ],
+  "sku": "ACME-DRL-18V-2B",
+  "gtin13": "8690000000001",
+  "brand": { "@type": "Brand", "name": "Acme" },
+  "offers": {
+    "@type": "Offer",
+    "url": "https://example.com/products/acme-drill-18v",
+    "priceCurrency": "TRY",
+    "price": "2499.00",
+    "availability": "https://schema.org/InStock",
+    "itemCondition": "https://schema.org/NewCondition",
+    "priceValidUntil": "2026-12-31",
+    "shippingDetails": {
+      "@type": "OfferShippingDetails",
+      "shippingRate": { "@type": "MonetaryAmount", "value": "0", "currency": "TRY" },
+      "deliveryTime": {
+        "@type": "ShippingDeliveryTime",
+        "handlingTime": { "@type": "QuantitativeValue", "minValue": 0, "maxValue": 1, "unitCode": "DAY" },
+        "transitTime": { "@type": "QuantitativeValue", "minValue": 1, "maxValue": 3, "unitCode": "DAY" }
+      }
+    },
+    "hasMerchantReturnPolicy": {
+      "@type": "MerchantReturnPolicy",
+      "applicableCountry": "TR",
+      "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+      "merchantReturnDays": 14,
+      "returnMethod": "https://schema.org/ReturnByMail",
+      "returnFees": "https://schema.org/FreeReturn"
+    }
+  }
+}

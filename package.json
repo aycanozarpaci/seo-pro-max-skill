@@ -1,0 +1,62 @@
+{
+  "name": "seo-pro-max",
+  "version": "1.0.0",
+  "description": "Production-grade SEO setup skill for Claude Code, Cursor, Windsurf, Cline, Roo Code, GitHub Copilot, Aider, Continue.dev, and Zed. Analyzes your project first, asks before writing, then implements exactly what you confirmed.",
+  "type": "module",
+  "bin": {
+    "seo-pro-max": "./bin/seo-pro-max.mjs"
+  },
+  "files": [
+    "bin",
+    "cli",
+    "SKILL.md",
+    "platforms",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build:platforms": "node scripts/build-platforms.mjs",
+    "prepack": "node scripts/build-platforms.mjs",
+    "cli": "node bin/seo-pro-max.mjs",
+    "test:cli": "node bin/seo-pro-max.mjs --help && node bin/seo-pro-max.mjs install --target cursor --dry-run --yes && node bin/seo-pro-max.mjs install --target all --dry-run --yes && node bin/seo-pro-max.mjs doctor"
+  },
+  "keywords": [
+    "seo",
+    "claude-code",
+    "claude-skill",
+    "cursor",
+    "cursor-rules",
+    "windsurf",
+    "cline",
+    "roo-code",
+    "copilot",
+    "aider",
+    "continue-dev",
+    "zed",
+    "ai-coding",
+    "ai-agent",
+    "wcag",
+    "accessibility",
+    "structured-data",
+    "schema-org",
+    "core-web-vitals",
+    "hreflang"
+  ],
+  "author": "Can Özkan Özarpacı <ozkanozarpaci@proton.me> (https://www.linkedin.com/in/canozkanozarpaci/)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aycanozarpaci/seo-pro-max-skill.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aycanozarpaci/seo-pro-max-skill/issues"
+  },
+  "homepage": "https://github.com/aycanozarpaci/seo-pro-max-skill#readme",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

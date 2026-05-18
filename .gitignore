@@ -1,0 +1,26 @@
+# Personal publishing notes — not for the public repo
+PUBLISHING.md
+NPM_PUBLISHING.md
+
+# Node
+node_modules/
+npm-debug.log*
+.npm
+.pnpm-store/
+
+# Editors / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Build artifacts
+dist/
+build/
+.cache/
+
+# npm pack tarballs
+*.tgz
+
+# Claude Code local workspace settings (per-user)
+.claude/

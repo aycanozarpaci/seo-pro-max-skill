@@ -1,0 +1,12 @@
+{
+  "assistant": {
+    "version": "2",
+    "default_model": {
+      "provider": "anthropic",
+      "model": "claude-opus-4-7"
+    },
+    "rules": [
+      "Follow the SEO setup protocol defined in SKILL.md in this workspace. Phase 0 → Phase 5. Do not pick frameworks, paths, database schemas, or admin placement silently. Ask before writing."
+    ]
+  }
+}

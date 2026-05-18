@@ -1,0 +1,96 @@
+# seo-pro-max (Windsurf short form)
+
+Executor, not decision-maker. Analyze the project first; ask the user before every write; never silently pick framework, file path, DB schema, or admin placement.
+
+## Protocol
+0. Inventory: framework, rendering, routing, admin, DB/ORM, i18n, hosting.
+1. Ask which SEO surfaces are in scope. Default: none. All opt-in.
+2. Per surface, drill down with concrete questions. No silent defaults.
+3. Print a written plan. Wait for explicit 'go' before writing.
+4. Implement in commit-sized chunks. Report path + 1-line description per chunk.
+5. Verify: build, typecheck, curl headers, fetch HTML, validate JSON-LD.
+
+## Surfaces (ask per-surface questions on demand)
+- Surface 1 — Meta Basics
+- Surface 2 — Indexing Controls
+- Surface 3 — robots.txt
+- Surface 4 — XML Sitemap
+- Surface 5 — Open Graph
+- Surface 6 — Twitter / X Cards
+- Surface 7 — Schema.org / JSON-LD
+- Surface 8 — Favicons & PWA Manifest
+- Surface 9 — Search Engine Verification
+- Surface 10 — llms.txt
+- Surface 11 — Admin Panel Placement
+- Surface 12 — Database Schema
+- Surface 13 — Per-page Overrides
+- Surface 14 — Language, i18n & hreflang
+- Surface 15 — Accessibility (WCAG 2.2 AA)
+- Surface 16 — OG Image Generation
+- Surface 17 — Core Web Vitals & Page Performance
+- Surface 18 — Image Optimization
+- Surface 19 — URL Structure & Slug Rules
+- Surface 20 — Internal Linking & Orphan Detection
+- Surface 21 — Security & Lighthouse Headers
+- Surface 22 — Search Engine Submission & IndexNow
+- Surface 23 — SPA Hydration & Client-side Meta Updates
+
+## FAQPage deprecation (must tell user)
+Google removed FAQ rich results May 7, 2026. Do NOT emit FAQPage JSON-LD for new builds. Render FAQ as plain HTML. Use QAPage only for real community Q&A. Source: https://developers.google.com/search/docs/appearance/structured-data/faqpage
+
+## llms.txt disclaimer (must tell user)
+Google does NOT use llms.txt for AI Overviews or AI ranking. Source: https://developers.google.com/search/docs/fundamentals/ai-optimization-guide. Adding it is optional, not a ranking factor.
+
+## HTTP status policy (mandatory; Surface 2; verified in Phase 5)
+- Real 404 for unknown URLs (NOT 200 with a 'not found' UI = soft-404; Google demotes it).
+- 410 for permanently retired URLs; 301 for permanent moves (one hop, no chains); 308 to preserve method.
+- 503 + Retry-After during maintenance, never 200 with a maintenance page.
+- 401/403 for auth-walled hits without creds, not 200 with a login form for bots.
+- HTTPS upgrade is 301; mixed-case and trailing-slash variants 301 to canonical form.
+- Sitemap excludes any URL that returns 404/410/5xx.
+- Framework wiring: Next notFound(), Nuxt createError({statusCode:404}), SvelteKit error(404), Astro Astro.response.status=404, Laravel abort(404), Django Http404. Verify the wrapper preserves status.
+- Verify in Phase 5 with: curl -sI <homepage>, curl -sI <random-unknown-url>, curl -sIL http://<host>, curl -sIL <mixed-case>, curl -sIL <trailing-slash>. Print HTTP/1.1 200 on the unknown-URL probe as a FAIL.
+
+## Heading hierarchy policy (mandatory; Surface 15)
+- Exactly one <h1> per page; <h1> mirrors/paraphrases <title>. Site logo is NOT an <h1>.
+- No skipped levels down (h1→h3 forbidden). Jump back up freely (h3→h2 ok).
+- Heading level by document structure, never by font size. Style is CSS.
+- Card / teaser titles use real headings (h2/h3 per nesting), not <p class="title">.
+- 404 / empty-state pages still need an <h1>.
+- Refuse: wrapping logo in <h1>, multiple <h1> per page, <h1> styled tiny, slug-derived auto-headings.
+
+## Image alt-text policy (mandatory; Surface 15)
+- Every <img> MUST have alt=. Decorative: alt="" + aria-hidden="true". Content: describe purpose in context, not literal pixels.
+- Refuse alt values that are: empty for non-decorative images, the filename, "image"/"photo"/"logo"/"picture", or auto-generated placeholders.
+- The same alt source feeds: og:image:alt, twitter:image:alt, JSON-LD ImageObject.caption, admin upload widget, media DB column.
+- Existing images without alt → produce alt-audit.csv (path, page, missing/empty/present). Never auto-fill.
+
+## Lang / i18n / hreflang (Surface 14)
+- <html lang> mandatory every route; BCP 47 (tr, en-US, pt-BR, zh-CN), NOT en_US / TR / cn.
+- RTL locales (ar, he, fa, ur) require dir='rtl' + logical CSS properties.
+- Inline <span lang> for foreign-language quotes/names.
+- hreflang: self-reference mandatory; bidirectional pairs mandatory (one-way = Google rejects cluster); x-default exactly once; emit in head OR sitemap (not both).
+- Never auto-redirect on Accept-Language / geo-IP (banner only). Never serve wrong language with mismatched <html lang> (soft-404 + language mismatch).
+- Translated title/description/og/twitter/JSON-LD per locale.
+
+## keywords meta policy (Surface 1)
+- Google/Bing/DuckDuckGo: IGNORE. Omit by default.
+- Yandex (RU/CIS) / Baidu (CN): still read. Emit ONLY for these markets; 3-6 honest terms per page; no stuffing; never fabricate from slug.
+
+## Pagination (Surface 2)
+- rel=prev/next DEPRECATED by Google (2019). Do not emit.
+- Each paginated page self-canonicals; never canonical page 2+ back to page 1.
+- Paginated pages stay index,follow unless content is dup.
+
+## Core Web Vitals (Surface 17)
+- LCP <= 2.5s, CLS <= 0.1, INP <= 200ms (mobile, Google Good).
+- LCP image: fetchpriority=high, NOT lazy. Above-fold eager, below lazy.
+- Every <img> needs width+height (CLS). font-display:swap; preload LCP font.
+- No render-blocking inline JS above <title>. Third-party defer/async.
+
+## Image optimization (Surface 18)
+- AVIF > WebP > JPEG/PNG. <picture> + multiple <source type>.
+- srcset + sizes mandatory on responsive images. Width descriptors.
+- Explicit width/height attrs. decoding=async. EXIF stripped. SVG sanitized.
+
+## URL / slugs (Surface 19)

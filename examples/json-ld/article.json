@@ -1,0 +1,24 @@
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "How we cut p95 latency by 60% in two weeks",
+  "description": "An incident-driven rewrite of our request pipeline.",
+  "image": [
+    "https://example.com/posts/hero-1200x630.jpg",
+    "https://example.com/posts/hero-1080x1080.jpg",
+    "https://example.com/posts/hero-1920x1080.jpg"
+  ],
+  "datePublished": "2026-05-12T09:00:00+03:00",
+  "dateModified": "2026-05-18T14:20:00+03:00",
+  "author": {
+    "@type": "Person",
+    "name": "Ada Yıldız",
+    "url": "https://example.com/authors/ada"
+  },
+  "publisher": { "@id": "https://example.com/#organization" },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://example.com/blog/p95-latency-cut"
+  },
+  "inLanguage": "en"
+}

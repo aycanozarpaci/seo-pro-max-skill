@@ -1,0 +1,31 @@
+{
+  "@context": "https://schema.org",
+  "@type": "QAPage",
+  "mainEntity": {
+    "@type": "Question",
+    "name": "How do I rotate Postgres logical replication slots without downtime?",
+    "text": "We have a Postgres 16 primary with two logical replication slots feeding downstream consumers. I need to rotate one of the slots after a schema change. What's the safe order of operations?",
+    "answerCount": 2,
+    "upvoteCount": 14,
+    "dateCreated": "2026-05-10T08:30:00Z",
+    "author": { "@type": "Person", "name": "asli" },
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Create the new slot first while the consumer is still reading from the old one, then switch the consumer's connection string to the new slot, confirm it's caught up, and finally drop the old slot.",
+      "dateCreated": "2026-05-10T09:12:00Z",
+      "upvoteCount": 22,
+      "url": "https://example.com/qa/postgres-slot-rotation#answer-101",
+      "author": { "@type": "Person", "name": "mert" }
+    },
+    "suggestedAnswer": [
+      {
+        "@type": "Answer",
+        "text": "Alternative: pause the consumer, take a checkpoint, drop and recreate the slot at the same LSN, resume. Riskier but works for low-volume slots.",
+        "dateCreated": "2026-05-10T10:01:00Z",
+        "upvoteCount": 3,
+        "url": "https://example.com/qa/postgres-slot-rotation#answer-104",
+        "author": { "@type": "Person", "name": "deniz" }
+      }
+    ]
+  }
+}
