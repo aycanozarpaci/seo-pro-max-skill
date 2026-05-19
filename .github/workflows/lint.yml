@@ -1,0 +1,58 @@
+name: lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  markdownlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DavidAnson/markdownlint-cli2-action@v16
+        with:
+          globs: |
+            SKILL.md
+            README.md
+            examples/**/*.md
+
+  json-valid:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate JSON-LD examples parse
+        run: |
+          set -e
+          for f in examples/json-ld/*.json platforms/continue/config-snippet.json platforms/zed/settings-snippet.json; do
+            echo "::group::$f"
+            node -e "JSON.parse(require('fs').readFileSync('$f','utf8')); console.log('ok')"
+            echo "::endgroup::"
+          done
+
+  cli-smoke:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: ["18", "20", "22"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Build platform files
+        run: node scripts/build-platforms.mjs
+      - name: CLI --help
+        run: node bin/seo-pro-max.js --help
+      - name: CLI --version
+        run: node bin/seo-pro-max.js --version
+      - name: CLI install --dry-run --target cursor
+        run: node bin/seo-pro-max.js install --target cursor --dry-run --yes
+      - name: CLI install --dry-run --target all
+        run: node bin/seo-pro-max.js install --target all --dry-run --yes
+      - name: CLI doctor
+        run: node bin/seo-pro-max.js doctor
+      - name: npm pack --dry-run (file list)
+        run: npm pack --dry-run

@@ -1,0 +1,35 @@
+name: sync-platforms
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "SKILL.md"
+      - "scripts/build-platforms.mjs"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Rebuild platform files from SKILL.md
+        run: node scripts/build-platforms.mjs
+      - name: Commit if changed
+        run: |
+          if [ -n "$(git status --porcelain platforms/)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add platforms/
+            git commit -m "chore: sync platform files from SKILL.md"
+            git push
+          else
+            echo "No platform changes."
+          fi
