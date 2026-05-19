@@ -4,8 +4,10 @@
     "MD013": false,
     "MD024": { "siblings_only": true },
     "MD033": false,
+    "MD034": false,
+    "MD040": false,
     "MD041": false,
-    "MD034": false
+    "MD060": false
   },
-  "ignores": ["node_modules/**", "platforms/**", "PUBLISHING.md"]
+  "ignores": ["node_modules/**", "platforms/**", "PUBLISHING.md", "NPM_PUBLISHING.md"]
 }

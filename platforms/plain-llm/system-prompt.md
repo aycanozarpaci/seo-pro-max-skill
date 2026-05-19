@@ -100,6 +100,7 @@ Execute the confirmed plan. One commit-sized chunk at a time. After each chunk, 
 ## Surface 1 — Meta Basics
 
 ### What it covers
+
 `<title>`, `<meta name="description">`, `<meta name="keywords">` (see policy below), `<meta charset>`, `<meta name="viewport">`, `<html lang>`, `<meta name="theme-color">`, `<meta name="author">`, `<meta name="generator">`.
 
 ### `<meta name="keywords">` policy (must tell the user verbatim before emitting)
@@ -120,6 +121,7 @@ Execute the confirmed plan. One commit-sized chunk at a time. After each chunk, 
 > - The skill never fabricates keywords from the slug or body. If the editor cannot provide them, omit the tag.
 
 ### Questions to ask
+
 1. Site name? Tagline?
 2. Title strategy — `Page | Site` / `Site — Page` / page only / custom template?
 3. Title max length policy? (Recommend 50–60 chars but ask.)
@@ -131,6 +133,7 @@ Execute the confirmed plan. One commit-sized chunk at a time. After each chunk, 
 9. **`keywords` meta decision** — per the policy above, confirm: target markets, emit or omit, and if emit, source of the per-page keyword list.
 
 ### Output locations (framework-dependent)
+
 - **Next.js App Router** → `export const metadata` / `generateMetadata` in `layout.tsx` and per `page.tsx`.
 - **Next.js Pages Router** → `next/head` or `next-seo`.
 - **Nuxt 3** → `useSeoMeta()` / `definePageMeta()` / `app.head` in `nuxt.config`.
@@ -147,9 +150,11 @@ Execute the confirmed plan. One commit-sized chunk at a time. After each chunk, 
 ## Surface 2 — Indexing Controls
 
 ### What it covers
+
 `<meta name="robots">`, `X-Robots-Tag` HTTP header, `<link rel="canonical">`, alternate hreflang, pagination (`rel="prev/next"` is deprecated by Google but ask).
 
 ### Questions
+
 1. Which routes are `index, follow` vs. `noindex` / `nofollow`?
 2. Should auth-walled pages, drafts, search-result pages, and faceted URLs be `noindex`?
 3. Canonical strategy — self-canonical on every page, or canonical to a parent for paginated/faceted?
@@ -236,6 +241,7 @@ Google's documentation calls helpful 404s a positive UX signal and an "important
 ## Surface 3 — robots.txt
 
 ### Questions
+
 1. Allow all by default, then disallow listed paths — or disallow all and allow listed?
 2. Disallow patterns — `/admin`, `/api`, `/_next`, `/cdn-cgi`, `/cart`, `/checkout`, search pages?
 3. Different rules per user-agent? (e.g. block `GPTBot`, `CCBot`, `ClaudeBot`, `Google-Extended`, `anthropic-ai`, `PerplexityBot`, `Bytespider` — ask explicitly, this is a content-licensing decision.)
@@ -243,6 +249,7 @@ Google's documentation calls helpful 404s a positive UX signal and an "important
 5. Crawl-delay? (Google ignores it; Yandex and Bing honor it.)
 
 ### Output locations
+
 - Static: `public/robots.txt` (Next, Vite, Nuxt, Astro), `static/robots.txt` (SvelteKit), `public/robots.txt` (Laravel).
 - Dynamic: Next App Router `app/robots.ts`, Nuxt module, Express route, Django view, Laravel route returning `text/plain`.
 
@@ -251,6 +258,7 @@ Google's documentation calls helpful 404s a positive UX signal and an "important
 ## Surface 4 — XML Sitemap
 
 ### Questions
+
 1. One sitemap or sitemap index?
 2. Per-locale split? Per content type (pages / posts / products)?
 3. Source of URLs — file system routes, database query, headless CMS, or hybrid?
@@ -260,6 +268,7 @@ Google's documentation calls helpful 404s a positive UX signal and an "important
 7. Max URLs per file (cap is 50,000 / 50 MB — split before that).
 
 ### Output locations
+
 - Next App Router → `app/sitemap.ts` (returns `MetadataRoute.Sitemap`).
 - Nuxt → `@nuxtjs/sitemap` or custom server route.
 - Laravel → `spatie/laravel-sitemap` or a controller returning XML.
@@ -271,9 +280,11 @@ Google's documentation calls helpful 404s a positive UX signal and an "important
 ## Surface 5 — Open Graph
 
 ### What it covers
+
 `og:title`, `og:description`, `og:type`, `og:url`, `og:site_name`, `og:locale`, `og:locale:alternate`, `og:image`, `og:image:width`, `og:image:height`, `og:image:alt`, `og:image:type`, plus type-specific (`article:published_time`, `article:author`, `product:price:amount`, etc.).
 
 ### Questions
+
 1. Default OG image — single static asset or dynamic per page?
 2. If dynamic: rendered at build, rendered on request (edge function / `@vercel/og` / `satori`), or pre-uploaded per record?
 3. Image dimensions — `1200×630` (standard), or also `1080×1080` for Instagram/LinkedIn square previews?
@@ -287,9 +298,11 @@ Google's documentation calls helpful 404s a positive UX signal and an "important
 ## Surface 6 — Twitter / X Cards
 
 ### What it covers
+
 `twitter:card` (`summary` / `summary_large_image` / `app` / `player`), `twitter:site`, `twitter:creator`, `twitter:title`, `twitter:description`, `twitter:image`, `twitter:image:alt`.
 
 ### Questions
+
 1. Card type per route group?
 2. `@handle` for site and for author?
 3. Reuse OG image or have a separate Twitter image (the platforms now share image fields, but ask)?
@@ -300,6 +313,7 @@ Google's documentation calls helpful 404s a positive UX signal and an "important
 ## Surface 7 — Schema.org / JSON-LD
 
 ### What it covers (only enable types the user confirms)
+
 `Organization`, `WebSite` (+ `SearchAction`), `WebPage`, `BreadcrumbList`, `Article` / `NewsArticle` / `BlogPosting`, `Product` + `Offer` + `AggregateRating` + `Review`, `QAPage`, `HowTo`, `Recipe`, `Event`, `LocalBusiness` (and subtypes), `Person`, `VideoObject`, `ImageObject`, `Course`, `JobPosting`, `SoftwareApplication`, `Dataset`, `SoftwareSourceCode`, `Book`, `MusicRecording`, `MovieSeries`, `TVSeries`, `RealEstateListing`, `MedicalEntity`, `Service`.
 
 ### Schema recommendation engine (Phase 0 output drives this)
@@ -339,6 +353,7 @@ The skill **proposes** types based on what Phase 0 detected in the project. The 
 > Source: https://developers.google.com/search/docs/appearance/structured-data/faqpage
 >
 > **Implication for this skill:**
+>
 > - For new builds, do **not** emit `FAQPage` JSON-LD — it gains nothing in Google and adds maintenance cost. Render the FAQ content as plain accessible HTML (`<details>` / headings + paragraphs).
 > - If the page is genuinely a Q&A (one question asked by a user, multiple community answers — like Stack Overflow), use **`QAPage`** instead. `QAPage` is not affected by this deprecation.
 > - If the user explicitly insists on shipping `FAQPage` anyway (e.g. for non-Google search engines or third-party consumers that still parse it), the skill MAY emit it — but must record this decision in `seo.config.md` with the user's reason.
@@ -380,11 +395,13 @@ The skill **proposes** types based on what Phase 0 detected in the project. The 
 ```
 
 Rules:
+
 - `QAPage` is only valid when the page is **one question** with discrete answers. Do not wrap a generic FAQ list in `QAPage`.
 - `acceptedAnswer` is at most one. `suggestedAnswer` is an array of zero or more.
 - Each answer needs a stable `url` (anchor or permalink) so Google can deep-link.
 
 ### Questions to the user
+
 1. Based on the table above, here is my **proposed** type list for your project: `<list>`. Confirm, add, or remove items?
 2. Single combined `@graph` object per page or multiple discrete `<script>` blocks? (Recommendation: `@graph` keeps things deduplicated; ask anyway.)
 3. Source of fields — route file frontmatter, database column, headless CMS field, or hardcoded constants? (May differ per type.)
@@ -397,6 +414,7 @@ Rules:
 10. Generate types with `schema-dts` / Zod schemas for compile-time safety?
 
 ### Output rules
+
 - Always emit as `<script type="application/ld+json">` with a stable serializer (no trailing commas, sorted keys, no `undefined`).
 - Never inject unvalidated user HTML into JSON-LD strings — escape `<`, `>`, `&` properly; strip control characters.
 - Never fabricate ratings, reviews, prices, dates, or counts. If the data isn't real, do not emit the property.
@@ -409,9 +427,11 @@ Rules:
 ## Surface 8 — Favicons & PWA Manifest
 
 ### What it covers
+
 `favicon.ico`, `favicon-16x16.png`, `favicon-32x32.png`, `apple-touch-icon.png` (180×180), `android-chrome-192x192.png`, `android-chrome-512x512.png`, `mask-icon.svg` (Safari pinned), `manifest.webmanifest`, `browserconfig.xml` (legacy IE/Edge), `theme-color`, `msapplication-TileColor`.
 
 ### Questions
+
 1. Source image — single SVG, single high-res PNG, or pre-rendered set?
 2. Generate at build time (`sharp`, `pwa-asset-generator`, `realfavicongenerator`) or commit static assets?
 3. Maskable icon variant for Android?
@@ -423,6 +443,7 @@ Rules:
 ## Surface 9 — Search Engine Verification
 
 ### Questions
+
 1. Which engines — Google Search Console, Bing Webmaster, Yandex Webmaster, Naver, Baidu?
 2. Verification method — HTML meta tag, DNS TXT, file upload, Google Tag Manager?
 3. Where do the tokens live — env vars, settings table, hardcoded? (Recommend env vars; ask.)
@@ -439,6 +460,7 @@ Rules:
 > `llms.txt` remains a community proposal (https://llmstxt.org) that *some* tools and crawlers may read. Adding it is harmless and cheap, but it is **not** an SEO ranking factor for Google.
 
 ### Questions (only after the user has read the note)
+
 1. Add `llms.txt` anyway? If no — stop here.
 2. Add `llms-full.txt` (expanded variant)?
 3. Source — hand-written, generated from the sitemap, or generated from the CMS?
@@ -446,6 +468,7 @@ Rules:
 5. Update cadence — on each deploy, on content change, manual?
 
 ### Output location
+
 - `public/llms.txt` (or framework equivalent — same rules as `robots.txt`).
 
 ---
@@ -455,6 +478,7 @@ Rules:
 **Critical: the skill must not decide where SEO admin UI lives.** It must ask.
 
 ### Questions
+
 1. Does the project have an admin area? (If yes, list the routes found in Phase 0.)
 2. For each SEO data type below, where does the editing UI live?
    - Site-wide defaults (site name, default description, default OG image, GSC token) → **Settings page** / **dedicated `/admin/seo` page** / **per-resource only**?
@@ -475,6 +499,7 @@ The agent waits for explicit answers before scaffolding any admin route, form, o
 **Also user-decided.** The agent proposes; the user picks.
 
 ### Questions
+
 1. Storage style — pick one (or mix):
    - **A. Polymorphic `seo_metas` table** — one row per `(model_type, model_id)` with columns: `title`, `description`, `keywords`, `canonical`, `noindex`, `og_image`, `og_type`, `twitter_card`, `json_ld`, `updated_at`. Pros: clean, queryable. Cons: extra join.
    - **B. Columns on each content table** — add `seo_title`, `seo_description`, ... directly to `posts`, `products`, `pages`. Pros: one query. Cons: schema churn, repeated columns.
@@ -488,6 +513,7 @@ The agent waits for explicit answers before scaffolding any admin route, form, o
 7. **Media / image table** — does the project already have one? If yes, confirm it has an `alt_text` column (and `alt_text_translations` table if i18n). If no, scaffold it per Surface 15: `id`, `url`, `mime`, `width`, `height`, `alt_text` (varchar 255, not null, default `''`), `is_decorative` (boolean), `created_at`. Reject `INSERT`s on the API layer where `alt_text = ''` AND `is_decorative = false`.
 
 After the user picks, the agent generates:
+
 - Migration file(s) in the right place (`prisma/schema.prisma`, `database/migrations/*`, Django `models.py` + `makemigrations`, Drizzle schema, etc.).
 - Model / entity classes.
 - Repository / service layer.
@@ -499,6 +525,7 @@ After the user picks, the agent generates:
 ## Surface 13 — Per-page Overrides
 
 ### Questions
+
 1. Override precedence — page-level > section-level > site-level? Confirm the chain.
 2. What is the merge behavior when a field is empty — fall back to the next level, or render empty?
 3. Slug-keyed or ID-keyed?
@@ -635,7 +662,7 @@ Rules:
 - Linting: enable `jsx-a11y/heading-has-content` and `jsx-a11y/heading-has-content` rules where supported; add a custom check that fails CI when a built route has 0 or > 1 `<h1>`.
 - Existing pages: produce a `heading-audit.csv` (route, h1_count, max_jump, first_skipped_pair) but never silently rewrite content — user reviews and fixes.
 
-### Anti-patterns the skill refuses
+### Heading anti-patterns the skill refuses
 
 - Wrapping the site logo in `<h1>` so "every page has an h1."
 - Using `<h1>` on multiple cards in a feed because each card has its own "title."
@@ -671,7 +698,7 @@ The skill MUST enforce the following whenever it touches markup, schema, or cont
 - Wire `prefers-reduced-motion` into the global CSS reset.
 - For frameworks with route titles (`document.title`), confirm titles update on client-side navigation.
 
-### Anti-patterns the skill refuses
+### A11y anti-patterns the skill refuses
 
 - Generating `alt="image"`, `alt="photo"`, `alt="logo"`, `alt="picture"`, `alt="<filename>"`, or auto-filled alt from the filename. Refuse and ask.
 - Removing the focus outline globally (`*:focus { outline: none }`) without an alternative focus style.
@@ -686,6 +713,7 @@ The skill MUST enforce the following whenever it touches markup, schema, or cont
 ## Surface 16 — OG Image Generation
 
 ### Questions
+
 1. Static (one image per route, committed) / templated (build-time generation from a layout) / on-demand (runtime / edge)?
 2. If on-demand: `@vercel/og`, `satori`, `puppeteer`, `playwright`, `resvg`, Cloudinary, imgproxy, ImageKit?
 3. Caching — CDN with long TTL, or stamp filename with content hash?
