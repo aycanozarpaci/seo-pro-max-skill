@@ -25,6 +25,6 @@ build/
 # Claude Code local workspace settings (per-user)
 .claude/
 
-# Remotion demo build artifacts (re-renderable)
-tools/demo/out/
-tools/demo/node_modules/
+# Remotion demo project — kept locally for re-rendering the banner GIF,
+# not shipped in the repo (the rendered asset lives in assets/demo.gif).
+tools/
