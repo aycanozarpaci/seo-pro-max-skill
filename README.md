@@ -1,5 +1,9 @@
 # seo-pro-max
 
+<p align="center">
+  <img src="assets/demo.gif" alt="seo-pro-max demo: npx install auto-detects Cursor, drops the skill in, and the agent writes title / description / canonical / OG / Twitter / hreflang / JSON-LD into the page head — only after Phase 0 analysis and user confirmation." width="800" />
+</p>
+
 [![GitHub stars](https://img.shields.io/github/stars/aycanozarpaci/seo-pro-max-skill?style=social)](https://github.com/aycanozarpaci/seo-pro-max-skill/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/aycanozarpaci/seo-pro-max-skill?style=social)](https://github.com/aycanozarpaci/seo-pro-max-skill/network/members)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -248,12 +252,19 @@ Edit `SKILL.md`, run `node scripts/build-platforms.mjs`, open a PR. See [CONTRIB
 
 ## Roadmap
 
-- [ ] `npx seo-pro-max install` — one-line installer with auto-detection (v1.0)
+- [x] **`npx seo-pro-max install` — one-line installer with auto-detection** (shipped in v1.0.0)
+- [x] **23 SEO surfaces** covering meta, indexing, status codes, sitemap, OG, Twitter, JSON-LD, favicons, llms.txt, admin, DB, i18n, a11y, CWV, image optimization, URL structure, internal linking, security headers, IndexNow, SPA hydration (v1.0.0)
+- [x] **WCAG 2.2 AA enforcement** (alt-text policy, heading hierarchy, contrast, keyboard, motion, touch targets) (v1.0.0)
+- [x] **HTTP status correctness** (soft-404 detection, 410 for retired, 503+Retry-After, friendly-404 UX) (v1.0.0)
+- [x] **FAQPage deprecation tracking** (Google removed May 7 2026 — refuses to emit, recommends `QAPage`) (v1.0.0)
+- [x] **10-platform delivery** via auto-generated copies under `platforms/` (v1.0.0)
+- [x] **GitHub Actions CI** — markdownlint, JSON parse, CLI smoke test across Linux/macOS/Windows × Node 18/20/22 (v1.0.0)
 - [ ] Demo video / screen recording of the Phase 0 → Phase 5 flow
 - [ ] More framework examples: Astro Starlight, Hugo, Jekyll, Rails, Phoenix
 - [ ] Schema.org type pack for SaaS pricing pages (`SoftwareApplication` + `Offer` + `AggregateRating` with real-data guard)
 - [ ] Per-locale OG image template generator
 - [ ] Optional GitHub Action that re-runs the Phase 5 verify on every PR
+- [ ] Provenance-signed npm releases via OIDC trusted publisher (config in place; awaiting first successful CI publish)
 
 Open an issue if you want to vote on or add to this list.
 
