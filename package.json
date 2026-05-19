@@ -1,6 +1,6 @@
 {
   "name": "seo-pro-max",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Production-grade SEO setup skill for Claude Code, Cursor, Windsurf, Cline, Roo Code, GitHub Copilot, Aider, Continue.dev, and Zed. Analyzes your project first, asks before writing, then implements exactly what you confirmed.",
   "type": "module",
   "bin": {
