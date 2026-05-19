@@ -4,7 +4,7 @@
   "description": "Production-grade SEO setup skill for Claude Code, Cursor, Windsurf, Cline, Roo Code, GitHub Copilot, Aider, Continue.dev, and Zed. Analyzes your project first, asks before writing, then implements exactly what you confirmed.",
   "type": "module",
   "bin": {
-    "seo-pro-max": "./bin/seo-pro-max.mjs"
+    "seo-pro-max": "bin/seo-pro-max.js"
   },
   "files": [
     "bin",
@@ -20,8 +20,8 @@
   "scripts": {
     "build:platforms": "node scripts/build-platforms.mjs",
     "prepack": "node scripts/build-platforms.mjs",
-    "cli": "node bin/seo-pro-max.mjs",
-    "test:cli": "node bin/seo-pro-max.mjs --help && node bin/seo-pro-max.mjs install --target cursor --dry-run --yes && node bin/seo-pro-max.mjs install --target all --dry-run --yes && node bin/seo-pro-max.mjs doctor"
+    "cli": "node bin/seo-pro-max.js",
+    "test:cli": "node bin/seo-pro-max.js --help && node bin/seo-pro-max.js install --target cursor --dry-run --yes && node bin/seo-pro-max.js install --target all --dry-run --yes && node bin/seo-pro-max.js doctor"
   },
   "keywords": [
     "seo",
@@ -56,7 +56,6 @@
   },
   "homepage": "https://github.com/aycanozarpaci/seo-pro-max-skill#readme",
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   }
 }

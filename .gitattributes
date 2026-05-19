@@ -11,4 +11,4 @@
 *.yaml text eol=lf
 
 # Make the bin entry exportable as executable.
-bin/seo-pro-max.mjs eol=lf
+bin/seo-pro-max.js eol=lf

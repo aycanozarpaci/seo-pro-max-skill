@@ -270,7 +270,7 @@ seo-pro-max-skill/
 ├── .gitattributes                    # LF line endings for .mjs / shebang safety
 ├── .markdownlint-cli2.jsonc
 ├── bin/
-│   └── seo-pro-max.mjs               # CLI entry — `npx seo-pro-max <cmd>`
+│   └── seo-pro-max.js                # CLI entry — `npx seo-pro-max <cmd>`
 ├── cli/
 │   ├── install.mjs                   # install command
 │   ├── update.mjs                    # update command
