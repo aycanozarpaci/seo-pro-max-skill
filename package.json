@@ -1,6 +1,6 @@
 {
   "name": "seo-pro-max",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Production-grade SEO setup skill for Claude Code, Cursor, Windsurf, Cline, Roo Code, GitHub Copilot, Aider, Continue.dev, and Zed. Analyzes your project first, asks before writing, then implements exactly what you confirmed.",
   "type": "module",
   "bin": {
@@ -45,7 +45,7 @@
     "core-web-vitals",
     "hreflang"
   ],
-  "author": "Can \u00d6zkan \u00d6zarpac\u0131 <ozkanozarpaci@proton.me> (https://www.linkedin.com/in/canozkanozarpaci/)",
+  "author": "Can Özkan Özarpacı <ozkanozarpaci@proton.me> (https://www.linkedin.com/in/canozkanozarpaci/)",
   "license": "MIT",
   "repository": {
     "type": "git",
