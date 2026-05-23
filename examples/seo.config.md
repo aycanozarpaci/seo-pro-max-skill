@@ -33,6 +33,7 @@
 ## Decisions per surface (Phase 2)
 
 ### Meta basics
+
 - Site name: "Tedarikçin"
 - Title template: `%s · Tedarikçin` (page name first)
 - Title max 60, description max 160
@@ -40,29 +41,34 @@
 - Theme color: `#0F172A` (light) / `#020617` (dark)
 
 ### Indexing
+
 - All routes `index, follow` by default
 - `noindex` on: `/admin/**`, `/api/**`, `/search`, `/cart`, `/checkout`, `/account/**`
 - Canonical: self-canonical, strip `utm_*`, `fbclid`, `gclid`, `ref`
 - hreflang: `tr` ↔ `en`, `x-default` → `tr`
 
 ### robots.txt
+
 - Allow all by default
 - Disallow: `/admin`, `/api`, `/_next`, `/cart`, `/checkout`
 - Block AI scrapers: `GPTBot`, `CCBot`, `ClaudeBot`, `anthropic-ai`, `Google-Extended`, `PerplexityBot`, `Bytespider` — user opted in
 - Sitemap: `https://tedarikcin.example/sitemap.xml`
 
 ### Sitemap
+
 - Sitemap index → child sitemaps per locale + per content type
 - Children: `sitemap-pages-tr.xml`, `sitemap-pages-en.xml`, `sitemap-products.xml`, `sitemap-posts.xml`
 - Source: Prisma queries, regenerated on each request, cached 60s
 
 ### Open Graph & Twitter
+
 - Default OG image: dynamic via `@vercel/og`
 - Dimensions: 1200×630
 - Twitter card: `summary_large_image`
 - `@handle`: `@tedarikcin`
 
 ### Schema.org / JSON-LD (proposed → confirmed)
+
 - Site-wide: `Organization`, `WebSite` + `SearchAction`
 - `/`: also `BreadcrumbList` (single root)
 - `/products/[slug]`: `Product` + `Offer` + `BreadcrumbList`
@@ -71,15 +77,18 @@
 - `FAQPage`: **NOT emitted** — Google removed FAQ rich results May 7, 2026. FAQ content rendered as plain HTML in `/faq`. User informed.
 
 ### Favicons
+
 - Source: `assets/logo.svg`
 - Generated at build via `sharp`: `favicon.ico`, 16, 32, 180 (apple), 192, 512 (android), maskable variant, dark-mode favicon
 - Manifest: `start_url=/`, `display=standalone`, `theme_color=#0F172A`
 
 ### Search Console verification
+
 - Method: HTML meta tag in root layout
 - Token source: `process.env.GOOGLE_SITE_VERIFICATION` (added to `.env.example`)
 
 ### Admin UI placement
+
 - Site-wide defaults → `/admin/settings/seo` (new page)
 - Per-page overrides → "SEO" tab on every resource editor (posts, products, pages)
 - Redirects → `/admin/settings/redirects` (new page)
@@ -87,6 +96,7 @@
 - sitemap → auto-generated, read-only preview in `/admin/settings/seo`
 
 ### Database
+
 - Style: **A (polymorphic `seo_metas`)** + site-wide settings in `app_settings` (key/value)
 - Translation table: `seo_meta_translations` keyed by `(seo_meta_id, locale)`
 - Prisma models: `SeoMeta`, `SeoMetaTranslation`, `AppSetting`
