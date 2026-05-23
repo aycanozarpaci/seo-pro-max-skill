@@ -21,7 +21,7 @@
     "build:platforms": "node scripts/build-platforms.mjs",
     "prepack": "node scripts/build-platforms.mjs",
     "cli": "node bin/seo-pro-max.js",
-    "test:cli": "node bin/seo-pro-max.js --help && node bin/seo-pro-max.js install --target cursor --dry-run --yes && node bin/seo-pro-max.js install --target all --dry-run --yes && node bin/seo-pro-max.js doctor",
+    "test:cli": "node bin/seo-pro-max.js --help && node bin/seo-pro-max.js install --target cursor --dry-run --yes && node bin/seo-pro-max.js install --target all --dry-run --yes && node bin/seo-pro-max.js doctor"
   },
   "keywords": [
     "seo",
