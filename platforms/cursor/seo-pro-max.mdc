@@ -36,11 +36,58 @@ Before any question, the agent must inventory:
 7. i18n — `next-intl`, `next-i18next`, `vue-i18n`, `nuxt-i18n`, Laravel locales, Django i18n.
 8. Hosting hints — `vercel.json`, `netlify.toml`, `wrangler.toml`, `Dockerfile`, nginx configs.
 
-The agent reports findings as a short summary, then proceeds to Phase 1.
+The agent reports findings as a short summary, then proceeds to Phase 0.5.
+
+### Phase 0.5 — Dynamic content audit (deterministic, no LLM guesswork)
+
+Static `<title>` / `<meta>` on a route that renders **dynamic content** is the single most common SEO failure mode this skill must catch. Phase 0 finds the admin panel; Phase 0.5 maps which content models actually need per-row metadata.
+
+For every content model discovered (Prisma/Drizzle `model`, Eloquent model, Django `models.Model`, TypeORM entity, Strapi content-type, Sanity schema, MDX collection, etc.), the agent answers three yes/no questions **purely from file/schema reading — no inference**:
+
+1. **DB SEO fields present?** — Does the model/table have at least `seo_title` and `seo_description` columns (also accepted: `meta_title`, `metaTitle`, `seoTitle`, or a `seo jsonb` column)?
+2. **Admin UI exposes them?** — Does any admin form/page reference those fields (grep the admin directory for the column names)?
+3. **Public route consumes them?** — Does the route handler for that model read those fields and pass them to the framework's metadata API (`generateMetadata`, `useSeoMeta`, `<svelte:head>`, blade `@section('meta')`, Django template `{% block meta %}`)? Hardcoded `<title>{{ post.title }} | Site</title>` without DB-driven title/description fields counts as **NO**.
+
+The agent prints a matrix:
+
+```
+Model     | DB SEO fields | Admin UI | Public route consumes
+----------|---------------|----------|----------------------
+Post      |       ✗       |    ✗     |          ✗            ← FULL GAP
+Product   |       ✓       |    ✗     |          ✓            ← PARTIAL (admin missing)
+Page      |       ✓       |    ✓     |          ✓            ← OK
+```
+
+Any row with at least one ✗ is a **dynamic SEO gap**. The matrix is carried into Phase 1 as the basis for proactive recommendations. The matrix is also saved verbatim into `seo.config.md` so future runs can re-verify.
+
+If the project has **no content models** (pure static brochure site, single-page landing, marketing one-pager), the agent records "no dynamic content detected" and Phase 1 proceeds without proactive recommendations for Surfaces 11/12/13.
 
 ### Phase 1 — Scope intake (ask, don't assume)
 
-The agent asks the user, one block at a time, which SEO surfaces are in scope. **Default to none.** Each surface is opt-in.
+**Proactive Recommendations (Phase 0.5 → Phase 1 bridge).**
+
+Before showing the opt-in checklist, the agent emits warnings based on the Phase 0.5 matrix. For every row with at least one ✗, the agent prints:
+
+```
+⚠ Dynamic SEO gap detected: <Model>
+   DB fields: <✓/✗>   Admin UI: <✓/✗>   Public route consumes: <✓/✗>
+   Without fixing this, every <model> page will ship with identical or hardcoded
+   <title>/<meta>. This silently caps your organic traffic.
+
+   Strongly recommended surfaces to tick:
+     - Surface 11 (Admin-panel UI for SEO data)   ← if Admin UI = ✗
+     - Surface 12 (Database schema for SEO data)  ← if DB fields = ✗
+     - Surface 13 (Per-page overrides)            ← always, to define precedence
+
+   You may still skip. If you skip, the agent will log
+   "user-rejected dynamic SEO for <Model> — reason: <your reason>"
+   into seo.config.md so the next maintainer knows it was an explicit choice,
+   not an oversight.
+```
+
+The agent waits for the user to either tick the recommended surfaces or provide a skip reason — **then** shows the full opt-in checklist below.
+
+The agent asks the user, one block at a time, which SEO surfaces are in scope. **Default to none** (except the surfaces auto-recommended above). Each surface is opt-in.
 
 ```
 Which SEO surfaces should I set up?
@@ -484,6 +531,8 @@ Rules:
 
 **Critical: the skill must not decide where SEO admin UI lives.** It must ask.
 
+**Auto-recommend trigger:** When Phase 0.5 finds at least one content model where `Admin UI = ✗`, this surface is auto-recommended (with warning) in Phase 1. The user may still opt out, but the opt-out is logged as an explicit decision in `seo.config.md`, not a default skip.
+
 ### Questions
 
 1. Does the project have an admin area? (If yes, list the routes found in Phase 0.)
@@ -504,6 +553,8 @@ The agent waits for explicit answers before scaffolding any admin route, form, o
 ## Surface 12 — Database Schema
 
 **Also user-decided.** The agent proposes; the user picks.
+
+**Auto-recommend trigger:** When Phase 0.5 finds at least one content model where `DB SEO fields = ✗`, this surface is auto-recommended (with warning) in Phase 1. Without DB-backed metadata, every dynamic route falls back to hardcoded or computed-from-title defaults — which makes per-page SEO editing impossible. Skip only logged as explicit user decision in `seo.config.md`.
 
 ### Questions
 
@@ -994,6 +1045,7 @@ Single-page apps (and SSR apps with client-side route transitions) commonly fail
 
 ## Anti-patterns (skill must refuse / flag)
 
+- **Static `<title>` / `<meta description>` / OG fields for routes backed by a content model when no DB-driven metadata pipeline exists.** If Phase 0.5 found a content model (Post, Product, Page, Article, etc.) with `DB SEO fields = ✗` AND the user has not opted into Surface 11/12/13, the skill MUST stop and re-prompt before writing any meta tag for that route. Reason: shipping identical meta for every dynamic page is one of the highest-impact SEO failures, and silently scaffolding static defaults disguises the problem as "done." See Phase 0.5 and Phase 1 proactive recommendations.
 - Generating `<meta name="keywords">` and claiming it helps Google ranking. (It doesn't.)
 - Adding `priority` / `changefreq` and claiming Google respects them. (It mostly doesn't.)
 - Adding `llms.txt` and claiming it improves Google AI Overview placement. (It doesn't — see Surface 10.)
